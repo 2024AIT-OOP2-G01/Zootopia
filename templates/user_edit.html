@@ -9,8 +9,8 @@
     <h1>ユーザーを編集</h1>
     <ul class="breadcrumb">
         <li><a href="{{ url_for('index') }}">HOME</a></li>
-        <li><a href="{{ url_for('user.list') }}">ユーザー一覧</a></li>
-        <li>ユーザー編集</li>
+        <li><a href="{{ url_for('user.list') }}">飼育員一覧</a></li>
+        <li>飼育員編集</li>
     </ul>
 
     <form action="{{ url_for('user.edit', user_id=user.id) }}" method="post">
