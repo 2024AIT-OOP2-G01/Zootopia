@@ -15,16 +15,16 @@
 
     <form action="{{ url_for('role.edit', role_id=role.id) }}" method="post">
         <label>飼育員: 
-            <select name="keeeper" required>
-                {% for user in users %}
-                    <option value="{{ keeper.id }}" {% if order.user.id == keeeper.id %}selected{% endif %}>{{ user.name }}</option>
+            <select name="keeper_id" required>
+                {% for keeper in keepers %}
+                    <option value="{{ keeper.id }}" {% if role.keeper.id == keeper.id %}selected{% endif %}>{{ keeper.name }}</option>
                 {% endfor %}
             </select>
         </label><br>
         <label>動物: 
-            <select name="animal" required>
-                {% for product in products %}
-                    <option value="{{ animal.id }}" {% if order.product.id == animal.id %}selected{% endif %}>{{ product.name }}</option>
+            <select name="animal_id" required>
+                {% for animal in animals %}
+                    <option value="{{ animal.id }}" {% if role.animalname.id == animal.id %}selected{% endif %}>{{ animal.name }}</option>
                 {% endfor %}
             </select>
         </label><br>
