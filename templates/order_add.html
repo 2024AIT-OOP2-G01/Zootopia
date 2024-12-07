@@ -16,15 +16,15 @@
     <form action="{{ url_for('role.add') }}" method="post">
         <label>飼育員: 
             <select name="keeper_id" required>
-                {% for user in users %}
-                    <option value="{{ keeper.id }}">{{ user.name }}</option>
+                {% for keeper in keepers %}
+                    <option value="{{ keeper.id }}">{{ keeper.name }}</option>
                 {% endfor %}
             </select>
         </label><br>
         <label>動物: 
             <select name="animal_id" required>
-                {% for product in products %}
-                    <option value="{{ animal.id }}">{{ product.name }}</option>
+                {% for animal in animals %}
+                    <option value="{{ animal.id }}">{{ animal.name }}</option>
                 {% endfor %}
             </select>
         </label><br>
