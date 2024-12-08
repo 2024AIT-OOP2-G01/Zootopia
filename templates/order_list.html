@@ -28,8 +28,8 @@
             {% for role in items %}
             <tr>
                 <td><a href="{{ url_for('role.edit', role_id=role.id) }}">編集</a></td>
-                <td>{{ role.user.name }}</td>
-                <td>{{ role.product.name }}</td>
+                <td>{{ role.keeper.name }}</td>
+                <td>{{ role.animalname.name }}</td>
                 <td>{{ role.role_date }}</td>
             </tr>
             {% endfor %}
