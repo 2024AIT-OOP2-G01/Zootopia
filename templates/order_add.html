@@ -28,6 +28,14 @@
                 {% endfor %}
             </select>
         </label><br>
+        <label> 種類: 
+            <select name="animal_kind_id" required>
+                {% for kind in kinds %}
+                    <option value="" selected>選択してください</option>
+                    <option value="{{ kind.id }}">{{ kind.kind }}</option>
+                {% endfor %}
+            </select>
+        </label><br>
         <button type="submit">追加</button>
     </form>
 </body>
