@@ -4,13 +4,66 @@
     <meta charset="UTF-8">
     <title>データ一覧</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='base-style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-    <h1>Zootopia</h1>
+  <h1>Zootopia</h1>
     <ul>
       <li><a href="{{ url_for('user.list') }}">飼育員</a></li>
       <li><a href="{{ url_for('product.list') }}">動物</a></li>
       <li><a href="{{ url_for('role.list') }}">飼育表</a></li>
     </ul>
+  <main>
+      <section class="animal_ratio_chart">
+        <h3>飼育動物の割合</h3>
+        <div style="position: absolute; width:400px; height:400px;">
+         <canvas id="animal_ratio_chart"></canvas>
+        </div>
+      </section>
+  </main>
+  <script>
+   const animal_ratio_chart = document.getElementById('animal_ratio_chart');
+
+fetch('/products/api/animal_ratio')
+  .then(res => res.json())
+  .then(data => {
+    console.log(data);
+
+    new Chart(animal_ratio_chart, { 
+      type: 'doughnut',
+      data: {
+        labels: data.labels,
+        datasets: [{
+          data: data.data,
+          borderWidth: 1,
+          backgroundColor: [
+            'rgba(255, 99, 132, 0.2)',
+            'rgba(54, 162, 235, 0.2)',
+            'rgba(255, 206, 86, 0.2)',
+            'rgba(75, 192, 192, 0.2)',
+            'rgba(153, 102, 255, 0.2)',
+            'rgba(255, 159, 64, 0.2)'
+          ],
+          borderColor: [
+            'rgba(255, 99, 132, 1)',
+            'rgba(54, 162, 235, 1)',
+            'rgba(255, 206, 86, 1)',
+            'rgba(75, 192, 192, 1)',
+            'rgba(153, 102, 255, 1)',
+            'rgba(255, 159, 64, 1)'
+          ]
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'right'
+          }
+        }
+      }
+    });
+  });
+  </script>
 </body>
 </html>
