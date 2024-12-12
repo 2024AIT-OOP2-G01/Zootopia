@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>データ一覧</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='base-style.css') }}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.js"></script>
 </head>
 <body>
     <h1>Zootopia</h1>
@@ -12,5 +13,134 @@
       <li><a href="{{ url_for('product.list') }}">動物</a></li>
       <li><a href="{{ url_for('role.list') }}">飼育表</a></li>
     </ul>
+
+    <div class="visitor-container">
+      <canvas id="visitor"></canvas>
+    </div>
+
+
+    <script>
+      // const response = await fetch("http://192.168.246.58:8080/visitors/data'");
+      // console.log(response);
+
+      const data = {
+        Visitor: [
+          {
+            "2024-9": {
+              "Visitor-f": 100,
+              "Visitor-m": 300,
+              "Visitor-g": 400,
+              "Visitor-b": 500,
+            },
+            "2024-10-8": {
+              "Visitor-f": 400,
+              "Visitor-m": 500,
+              "Visitor-g": 600,
+              "Visitor-b": 800,
+            },
+            "2024-10-7": {
+              "Visitor-f": 100,
+              "Visitor-m": 300,
+              "Visitor-g": 400,
+              "Visitor-b": 500,
+            },
+            "2024-10-6": {
+              "Visitor-f": 400,
+              "Visitor-m": 500,
+              "Visitor-g": 600,
+              "Visitor-b": 800,
+            },
+          },
+        ],
+      };
+
+      const dates = [];
+      const totals = [];
+      const males = [];
+      const females = [];
+      const boys = [];
+      const girls = [];
+
+      data.Visitor.forEach((visitorData) => {
+        Object.keys(visitorData).forEach((date) => {
+          dates.push(date);
+          const details = visitorData[date];
+          females.push(details["Visitor-f"]);
+          males.push(details["Visitor-m"]);
+          girls.push(details["Visitor-g"]);
+          boys.push(details["Visitor-b"]);
+          totals.push(
+            details["Visitor-f"] +
+              details["Visitor-m"] +
+              details["Visitor-g"] +
+              details["Visitor-b"]
+          );
+        });
+      });
+
+      var ctx = document.getElementById("visitor");
+      var myChart = new Chart(ctx, {
+        type: "line", // グラフの種類
+        data: {
+          labels: dates, // Ｘ軸のラベル
+          datasets: [
+            {
+              label: "合計", // 系列名
+              data: totals, // 系列Ａのデータ
+              tension: 0.5, // ★　グラフの線、０ 直線,  ＞０ 曲線
+              fill: true, // ★　線とＸ軸で囲まれた範囲の描画 true する, false しない
+              borderColor: "rgba(108,255,255)", // グラフの線の色
+              borderWidth: 2, // グラフの線の太さ
+            },
+            {
+              label: "男性", // 系列名
+              data: males, // 系列Ａのデータ
+              tension: 0.5, // ★　グラフの線、０ 直線,  ＞０ 曲線
+              fill: true, // ★　線とＸ軸で囲まれた範囲の描画 true する, false しない
+
+              borderColor: "rgba(255,0,0,0.2)", // グラフの線の色
+              borderWidth: 2, // グラフの線の太さ
+            },
+            {
+              label: "女性", // 系列名
+              data: females, // 系列Ａのデータ
+              tension: 0.5, // ★　グラフの線、０ 直線,  ＞０ 曲線
+              fill: true, // ★　線とＸ軸で囲まれた範囲の描画 true する, false しない
+              borderColor: "rgba(108,47,255)", // グラフの線の色
+              borderWidth: 2, // グラフの線の太さ
+            },
+            {
+              label: "男子", // 系列名
+              data: boys, // 系列Ａのデータ
+              tension: 0.5, // ★　グラフの線、０ 直線,  ＞０ 曲線
+              fill: true, // ★　線とＸ軸で囲まれた範囲の描画 true する, false しない
+              borderColor: "rgba(108,230,126)", // グラフの線の色
+              borderWidth: 2, // グラフの線の太さ
+            },
+            {
+              label: "女子", // 系列名
+              data: girls, // 系列Ａのデータ
+              tension: 0.5, // ★　グラフの線、０ 直線,  ＞０ 曲線
+              fill: true, // ★　線とＸ軸で囲まれた範囲の描画 true する, false しない
+              borderColor: "rgba(228,230,0)", // グラフの線の色
+              borderWidth: 2, // グラフの線の太さ
+            },
+          ],
+        },
+        options: {
+
+          title: {
+            // タイトル表示
+            display: true,
+            fontSize: 18,
+            text: "来場客の遷移",
+          },
+          legend: {
+            // 凡例非表示
+            display: false,
+          },
+        },
+      });
+</script>
 </body>
 </html>

@@ -14,7 +14,7 @@ def list():
 
 @product_bp.route('/add', methods=['GET', 'POST'])
 def add():
-    
+
     # POSTで送られてきたデータは登録
     if request.method == 'POST':
         kind = request.form['kind']
@@ -23,7 +23,7 @@ def add():
 
         Product.create(kind=kind, name=name, food=food)
         return redirect(url_for('product.list'))
-    
+
     return render_template('product_add.html')
 
 
