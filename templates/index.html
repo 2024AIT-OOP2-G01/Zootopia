@@ -95,7 +95,10 @@ fetch('/products/api/animal_ratio')
         responsive: true,
         scales: {
           x: {
-            beginAtZero: true
+            beginAtZero: true,
+            ticks: {
+              stepSize: 1  // ここで整数刻みに設定
+        }
           }
         },
         plugins: {

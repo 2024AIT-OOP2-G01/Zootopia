@@ -16,6 +16,7 @@
     <form action="{{ url_for('role.add') }}" method="post">
         <label>飼育員: 
             <select name="keeper_id" required>
+                <option value="" selected>選択してください</option>
                 {% for keeper in keepers %}
                     <option value="{{ keeper.id }}">{{ keeper.name }}</option>
                 {% endfor %}
@@ -23,10 +24,20 @@
         </label><br>
         <label>動物: 
             <select name="animal_id" required>
+                <option value="" selected>選択してください</option>
                 {% for animal in animals %}
                     <option value="{{ animal.id }}">{{ animal.name }}</option>
                 {% endfor %}
             </select>
+        </label><br>
+        <label> 種類: 
+            <select name="animal_kind_id" required>
+                <option value="" selected>選択してください</option>
+                {% for kind in kinds %}
+                    <option value="{{ kind.id }}">{{ kind.kind }}</option>
+                {% endfor %}
+            </select>
+            
         </label><br>
         <button type="submit">追加</button>
     </form>
