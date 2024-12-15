@@ -73,42 +73,38 @@ fetch('/products/api/animal_ratio')
 
   const count_kind_chart = document.getElementById('count_kind_chart');
 
-  fetch('/roles/api/count_kind') // ここから上記のJSONが返ることを想定
+  fetch('/roles/api/count_kind')
   .then(res => res.json())
   .then(data => {
-    console.log(data); // { labels: ["Aさん", "Bさん", "Cさん", "Dさん"], data: [4,3,3,2] }
+    console.log(data);
 
     new Chart(document.getElementById('count_kind_chart'), {
       type: 'bar',
-      data: {
-        labels: data.labels,
-        datasets: [{
-          label: '担当動物数',
-          data: data.data,
-          backgroundColor: 'rgba(54, 162, 235, 0.2)',
-          borderColor: 'rgba(54, 162, 235, 1)',
-          borderWidth: 1
-        }]
-      },
+      data: data,  // ここで直接 data を渡す
       options: {
         indexAxis: 'y',
         responsive: true,
         scales: {
           x: {
             beginAtZero: true,
+            stacked: true, // 積み上げ
             ticks: {
               stepSize: 1  // ここで整数刻みに設定
-        }
+            } 
+          },
+          y: {
+            stacked: true // 積み上げ
           }
         },
         plugins: {
           legend: {
-            display: false
+            position: 'top'
           }
         }
       }
     });
   });
+
   </script>
 </body>
 </html>
