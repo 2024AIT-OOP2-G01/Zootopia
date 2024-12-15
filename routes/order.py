@@ -1,6 +1,7 @@
-from flask import Blueprint, render_template, request, redirect, url_for
+from flask import Blueprint, render_template, request, redirect, url_for, jsonify
 from models import User, Product, Role
 from datetime import datetime
+from peewee import fn
 
 # Blueprintの作成
 role_bp = Blueprint('role', __name__, url_prefix='/roles')
@@ -8,7 +9,6 @@ role_bp = Blueprint('role', __name__, url_prefix='/roles')
 @role_bp.route('/')
 def list():
     roles = Role.select()
-    print(roles)
     return render_template('order_list.html', title='飼育表', items=roles)
 
 @role_bp.route('/add', methods=['GET', 'POST'])
@@ -41,3 +41,17 @@ def edit(role_id):
     keepers = User.select()
     animals = Product.select()
     return render_template('order_edit.html', role=role, keepers=keepers, animals=animals)
+
+
+@role_bp.route('/api/count_kind')
+def count_kind():
+    query = (User
+             .select(User.name, fn.COUNT(Role.id).alias('count'))
+             .join(Role, on=(Role.keeper == User.id))
+             .group_by(User.name))
+
+    data = {
+        "labels": [r.name for r in query],
+        "data": [r.count for r in query]
+    }
+    return jsonify(data)
