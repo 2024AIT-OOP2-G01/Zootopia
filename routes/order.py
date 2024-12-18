@@ -5,11 +5,13 @@ from datetime import datetime
 # Blueprintの作成
 role_bp = Blueprint('role', __name__, url_prefix='/roles')
 
+
 @role_bp.route('/')
 def list():
     roles = Role.select()
     print(roles)
     return render_template('order_list.html', title='飼育表', items=roles)
+
 
 @role_bp.route('/add', methods=['GET', 'POST'])
 def add():
@@ -20,11 +22,12 @@ def add():
         animal_kind_id = request.form['animal_kind_id']
         Role.create(keeper=keeper_id, animalname=animal_id, role_date=role_date,animal_kind = animal_kind_id)
         return redirect(url_for('role.list'))
-    
+
     keepers = User.select()
     animals = Product.select()
     kinds = Product.select()
     return render_template('order_add.html', keepers=keepers, animals=animals,kinds = kinds)
+
 
 
 @role_bp.route('/edit/<int:role_id>', methods=['GET', 'POST'])
