@@ -20,6 +20,12 @@
          <canvas id="animal_ratio_chart"></canvas>
         </div>
       </section>
+      <section class="count_kind_chart" style="margin-top: 500px;">
+        <h3>飼育員ごとの担当動物数</h3>
+        <div style="width:400px; height:400px;">
+          <canvas id="count_kind_chart"></canvas>
+        </div>
+      </section>
   </main>
   <script>
    const animal_ratio_chart = document.getElementById('animal_ratio_chart');
@@ -64,6 +70,41 @@ fetch('/products/api/animal_ratio')
       }
     });
   });
+
+  const count_kind_chart = document.getElementById('count_kind_chart');
+
+  fetch('/roles/api/count_kind')
+  .then(res => res.json())
+  .then(data => {
+    console.log(data);
+
+    new Chart(document.getElementById('count_kind_chart'), {
+      type: 'bar',
+      data: data,  // ここで直接 data を渡す
+      options: {
+        indexAxis: 'y',
+        responsive: true,
+        scales: {
+          x: {
+            beginAtZero: true,
+            stacked: true, // 積み上げ
+            ticks: {
+              stepSize: 1  // ここで整数刻みに設定
+            } 
+          },
+          y: {
+            stacked: true // 積み上げ
+          }
+        },
+        plugins: {
+          legend: {
+            position: 'top'
+          }
+        }
+      }
+    });
+  });
+
   </script>
 </body>
 </html>

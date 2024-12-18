@@ -21,6 +21,7 @@
                 <th>&nbsp;</th>
                 <th>飼育員</th>
                 <th>動物</th>
+                <th>種類</th>
                 <th>担当決定した日</th>
             </tr>
         </thead>
@@ -30,6 +31,7 @@
                 <td><a href="{{ url_for('role.edit', role_id=role.id) }}">編集</a></td>
                 <td>{{ role.keeper.name }}</td>
                 <td>{{ role.animalname.name }}</td>
+                <td>{{ role.animal_kind.kind }}</td>
                 <td>{{ role.role_date }}</td>
             </tr>
             {% endfor %}
