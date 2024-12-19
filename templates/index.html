@@ -1,238 +1,223 @@
 <!DOCTYPE html>
 <html lang="ja">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>データ一覧</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='base-style.css') }}">
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='base-style.css') }}"
+    />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-</head>
-<body>
-  <h1>Zootopia</h1>
+  </head>
+  <body>
+    <h1>Zootopia</h1>
     <ul>
       <li><a href="{{ url_for('user.list') }}">飼育員</a></li>
       <li><a href="{{ url_for('product.list') }}">動物</a></li>
       <li><a href="{{ url_for('role.list') }}">飼育表</a></li>
     </ul>
-  <main>
+    <main>
       <section class="animal_ratio_chart">
         <h3>飼育動物の割合</h3>
-        <div style="position: absolute; width:400px; height:400px;">
-         <canvas id="animal_ratio_chart"></canvas>
+        <div style="position: absolute; width: 400px; height: 400px">
+          <canvas id="animal_ratio_chart"></canvas>
         </div>
       </section>
-      <section class="count_kind_chart" style="margin-top: 500px;">
+      <section class="count_kind_chart" style="margin-top: 500px">
         <h3>飼育員ごとの担当動物数</h3>
-        <div style="width:400px; height:400px;">
+        <div style="width: 400px; height: 400px">
           <canvas id="count_kind_chart"></canvas>
         </div>
       </section>
-    <section>
-      <h3>飼育員ごとの担当動物数</h3>
-      <div class="visitor-container">
-        <canvas id="visitor"></canvas>
-      </div>
-    </section>
-  </main>
-  <script>
-   const animal_ratio_chart = document.getElementById('animal_ratio_chart');
+      <section>
+        <h3>飼育員ごとの担当動物数</h3>
+        <div class="visitor-container">
+          <canvas id="visitor"></canvas>
+        </div>
+      </section>
+    </main>
+    <script>
+      const animal_ratio_chart = document.getElementById("animal_ratio_chart");
 
-fetch('/products/api/animal_ratio')
-  .then(res => res.json())
-  .then(data => {
-    console.log(data);
+      fetch("/products/api/animal_ratio")
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
 
-    new Chart(animal_ratio_chart, { 
-      type: 'doughnut',
-      data: {
-        labels: data.labels,
-        datasets: [{
-          data: data.data,
-          borderWidth: 1,
-          backgroundColor: [
-            'rgba(255, 99, 132, 0.2)',
-            'rgba(54, 162, 235, 0.2)',
-            'rgba(255, 206, 86, 0.2)',
-            'rgba(75, 192, 192, 0.2)',
-            'rgba(153, 102, 255, 0.2)',
-            'rgba(255, 159, 64, 0.2)'
-          ],
-          borderColor: [
-            'rgba(255, 99, 132, 1)',
-            'rgba(54, 162, 235, 1)',
-            'rgba(255, 206, 86, 1)',
-            'rgba(75, 192, 192, 1)',
-            'rgba(153, 102, 255, 1)',
-            'rgba(255, 159, 64, 1)'
-          ]
-        }]
-      },
-      options: {
-        responsive: true,
-        plugins: {
-          legend: {
-            position: 'right'
-          }
-        }
-      }
-    });
-  });
-
-  const count_kind_chart = document.getElementById('count_kind_chart');
-
-  fetch('/roles/api/count_kind')
-  .then(res => res.json())
-  .then(data => {
-    console.log(data);
-
-    new Chart(document.getElementById('count_kind_chart'), {
-      type: 'bar',
-      data: data,  // ここで直接 data を渡す
-      options: {
-        indexAxis: 'y',
-        responsive: true,
-        scales: {
-          x: {
-            beginAtZero: true,
-            stacked: true, // 積み上げ
-            ticks: {
-              stepSize: 1  // ここで整数刻みに設定
-            } 
-          },
-          y: {
-            stacked: true // 積み上げ
-          }
-        },
-        plugins: {
-          legend: {
-            position: 'top'
-          }
-        }
-      }
-    });
-  });
-
-    
-          // const response = await fetch("http://192.168.246.58:8080/visitors/data'");
-      // console.log(response);
-
-      const data = {
-        Visitor: [
-          {
-            "2024-9": {
-              "Visitor-f": 100,
-              "Visitor-m": 300,
-              "Visitor-g": 400,
-              "Visitor-b": 500,
+          new Chart(animal_ratio_chart, {
+            type: "doughnut",
+            data: {
+              labels: data.labels,
+              datasets: [
+                {
+                  data: data.data,
+                  borderWidth: 1,
+                  backgroundColor: [
+                    "rgba(255, 99, 132, 0.2)",
+                    "rgba(54, 162, 235, 0.2)",
+                    "rgba(255, 206, 86, 0.2)",
+                    "rgba(75, 192, 192, 0.2)",
+                    "rgba(153, 102, 255, 0.2)",
+                    "rgba(255, 159, 64, 0.2)",
+                  ],
+                  borderColor: [
+                    "rgba(255, 99, 132, 1)",
+                    "rgba(54, 162, 235, 1)",
+                    "rgba(255, 206, 86, 1)",
+                    "rgba(75, 192, 192, 1)",
+                    "rgba(153, 102, 255, 1)",
+                    "rgba(255, 159, 64, 1)",
+                  ],
+                },
+              ],
             },
-            "2024-10-8": {
-              "Visitor-f": 400,
-              "Visitor-m": 500,
-              "Visitor-g": 600,
-              "Visitor-b": 800,
+            options: {
+              responsive: true,
+              plugins: {
+                legend: {
+                  position: "right",
+                },
+              },
             },
-            "2024-10-7": {
-              "Visitor-f": 100,
-              "Visitor-m": 300,
-              "Visitor-g": 400,
-              "Visitor-b": 500,
-            },
-            "2024-10-6": {
-              "Visitor-f": 400,
-              "Visitor-m": 500,
-              "Visitor-g": 600,
-              "Visitor-b": 800,
-            },
-          },
-        ],
-      };
-
-      const dates = [];
-      const totals = [];
-      const males = [];
-      const females = [];
-      const boys = [];
-      const girls = [];
-
-      data.Visitor.forEach((visitorData) => {
-        Object.keys(visitorData).forEach((date) => {
-          dates.push(date);
-          const details = visitorData[date];
-          females.push(details["Visitor-f"]);
-          males.push(details["Visitor-m"]);
-          girls.push(details["Visitor-g"]);
-          boys.push(details["Visitor-b"]);
-          totals.push(
-            details["Visitor-f"] +
-              details["Visitor-m"] +
-              details["Visitor-g"] +
-              details["Visitor-b"]
-          );
+          });
         });
-      });
 
-      var ctx = document.getElementById("visitor");
-      var myChart = new Chart(ctx, {
-        type: "line", // グラフの種類
-        data: {
-          labels: dates, // Ｘ軸のラベル
-          datasets: [
-            {
-              label: "合計", // 系列名
-              data: totals, // 系列Ａのデータ
-              tension: 0.5, // ★　グラフの線、０ 直線,  ＞０ 曲線
-              fill: true, // ★　線とＸ軸で囲まれた範囲の描画 true する, false しない
-              borderColor: "rgba(108,255,255)", // グラフの線の色
-              borderWidth: 2, // グラフの線の太さ
-            },
-            {
-              label: "男性", // 系列名
-              data: males, // 系列Ａのデータ
-              tension: 0.5, // ★　グラフの線、０ 直線,  ＞０ 曲線
-              fill: true, // ★　線とＸ軸で囲まれた範囲の描画 true する, false しない
+      const count_kind_chart = document.getElementById("count_kind_chart");
 
-              borderColor: "rgba(255,0,0,0.2)", // グラフの線の色
-              borderWidth: 2, // グラフの線の太さ
-            },
-            {
-              label: "女性", // 系列名
-              data: females, // 系列Ａのデータ
-              tension: 0.5, // ★　グラフの線、０ 直線,  ＞０ 曲線
-              fill: true, // ★　線とＸ軸で囲まれた範囲の描画 true する, false しない
-              borderColor: "rgba(108,47,255)", // グラフの線の色
-              borderWidth: 2, // グラフの線の太さ
-            },
-            {
-              label: "男子", // 系列名
-              data: boys, // 系列Ａのデータ
-              tension: 0.5, // ★　グラフの線、０ 直線,  ＞０ 曲線
-              fill: true, // ★　線とＸ軸で囲まれた範囲の描画 true する, false しない
-              borderColor: "rgba(108,230,126)", // グラフの線の色
-              borderWidth: 2, // グラフの線の太さ
-            },
-            {
-              label: "女子", // 系列名
-              data: girls, // 系列Ａのデータ
-              tension: 0.5, // ★　グラフの線、０ 直線,  ＞０ 曲線
-              fill: true, // ★　線とＸ軸で囲まれた範囲の描画 true する, false しない
-              borderColor: "rgba(228,230,0)", // グラフの線の色
-              borderWidth: 2, // グラフの線の太さ
-            },
-          ],
-        },
-        options: {
+      fetch("/roles/api/count_kind")
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
 
-          title: {
-            // タイトル表示
-            display: true,
-            fontSize: 18,
-            text: "来場客の遷移",
-          },
-          legend: {
-            // 凡例非表示
-            display: false,
-          },
-        },
-      });
-  </script>
-</body>
+          new Chart(document.getElementById("count_kind_chart"), {
+            type: "bar",
+            data: data, // ここで直接 data を渡す
+            options: {
+              indexAxis: "y",
+              responsive: true,
+              scales: {
+                x: {
+                  beginAtZero: true,
+                  stacked: true, // 積み上げ
+                  ticks: {
+                    stepSize: 1, // ここで整数刻みに設定
+                  },
+                },
+                y: {
+                  stacked: true, // 積み上げ
+                },
+              },
+              plugins: {
+                legend: {
+                  position: "top",
+                },
+              },
+            },
+          });
+        });
+
+      fetch("/visitors/data")
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+
+          const dates = [];
+          const totals = [];
+          const males = [];
+          const females = [];
+          const boys = [];
+          const girls = [];
+
+          // データの抽出
+          Object.keys(data).forEach((key) => {
+            const visitorData = data[key]; // 各月のデータ
+            dates.push(key);
+            females.push(visitorData.f);
+            males.push(visitorData.m);
+            girls.push(visitorData.g);
+            boys.push(visitorData.b);
+            totals.push(
+              visitorData.f + visitorData.m + visitorData.g + visitorData.b
+            );
+          });
+
+          // Chart.js 描画
+          var ctx = document.getElementById("visitor");
+          var myChart = new Chart(ctx, {
+            type: "line",
+            data: {
+              labels: dates, // X軸ラベル
+              datasets: [
+                {
+                  label: "合計",
+                  data: totals,
+                  tension: 0.5,
+                  fill: true,
+                  borderColor: "rgba(108,255,255)",
+                  borderWidth: 2,
+                },
+                {
+                  label: "男性",
+                  data: males,
+                  tension: 0.5,
+                  fill: true,
+                  borderColor: "rgba(255,0,0,0.2)",
+                  borderWidth: 2,
+                },
+                {
+                  label: "女性",
+                  data: females,
+                  tension: 0.5,
+                  fill: true,
+                  borderColor: "rgba(108,47,255)",
+                  borderWidth: 2,
+                },
+                {
+                  label: "男子",
+                  data: boys,
+                  tension: 0.5,
+                  fill: true,
+                  borderColor: "rgba(108,230,126)",
+                  borderWidth: 2,
+                },
+                {
+                  label: "女子",
+                  data: girls,
+                  tension: 0.5,
+                  fill: true,
+                  borderColor: "rgba(228,230,0)",
+                  borderWidth: 2,
+                },
+              ],
+            },
+            options: {
+              plugins: {
+                title: {
+                  display: true,
+                  font: {
+                    size: 18,
+                  },
+                  text: "来場客の遷移",
+                },
+                legend: {
+                  display: true, // 凡例を表示する
+                },
+              },
+              scales: {
+                y: {
+                  beginAtZero: true, // Y軸を0から始める
+                  title: {
+                    display: true,
+                    text: "人数", // Y軸タイトル（任意）
+                  },
+                },
+              },
+            },
+          });
+        })
+        .catch((error) => {
+          console.error("データ取得中にエラーが発生しました:", error);
+        });
+    </script>
+  </body>
 </html>
